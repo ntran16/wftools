@@ -98,7 +98,7 @@ v0.5
 
 v0.4
 - Support for BedMaster STP file format (based on STPToolkit v8.2 or later)
-- Support for multiple file formats by using attribute ("converter_type", either "ge" or "bedmaster") in YAML config file
+- Support for multiple file formats by using attribute ("converter_type", either "bernoulli" or "bedmaster") in YAML config file
 - Support for converter specific parameters ("converter_options") in YAML config file
 - Support all features, like select channels, up/down sampling, for all converter types
 - Fixed renameTo bug if "{endtime}" is used in output filename pattern
