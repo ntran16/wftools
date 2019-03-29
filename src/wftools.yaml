@@ -1,0 +1,124 @@
+# Sample config file
+#
+# output_fn_pattern, supported names are: 
+# starttime, endtime, exetime, id1, id2, id3, id4, id5
+# example:
+# output_fn_pattern: "{id1}_{starttime}_{endtime}_{exetime}_{id2}_{id3}"
+# output_fn_pattern: "{id1}_{starttime}_{endtime}_{exetime}"
+# converter_type: "ge", or "bedmaster"
+# 
+converter_type: "bedmaster"
+converter_options:
+  - key: "stptools_exe"
+    value: "D:\\Utils\\StpToolkit_8.2\\StpToolkit.exe"
+  - key: "stptools_param"
+    value: "-cs"
+  - key: "keep_temp_files"
+    value: False
+  # - key: "num_segments_per_batch"
+  #  value: "500"
+  # - key: "temp_dir"
+  #  value: "D:\\Projects\\github\\data-extractor\\temp_dir"
+output_fn_time_format_list:
+  - key: "starttime"
+    value: "%Y%m%d%H%M%S" # "%Y-%m-%d"
+  - key: "endtime"
+    value: "%Y%m%d%H%M%S"
+  - key: "exetime"
+    value: "%Y%m%d%H%M%S"
+# output_fn_pattern: "{starttime}-{id1}"
+# output_fn_pattern: "{id1}_{starttime}_{endtime}_{exetime}"
+output_fn_pattern: "{id1}_{starttime}_{endtime}"
+output_fn_ext: "adibin"
+#sampling_rate: 300
+sampling_rate: 240
+ignore_gap: False
+ignore_gap_between_segs: False
+warning_on_gaps: True
+#channel_pattern_list:
+#  - "I"
+#  - "II"
+#  - "III"
+#  - "V"
+#  - "RR"
+channel_info_list:
+  - label: "ECG.*"
+    renameTo: "ECG"
+    uom: "mV"
+    rangeLow: 0.0
+    rangeHigh: 1.0
+    offset: 0.0
+    scale: 0.1
+  - label: "PLETH"
+    uom: "mV"
+    rangeLow: 0.0
+    rangeHigh: 1.0
+    offset: 0.0
+    scale: 0.1
+  - label: "I"
+    uom: "mV"
+    rangeLow: 0.0
+    rangeHigh: 100.0
+    offset: 0.0
+    scale: 0.1
+  - label: "II"
+    uom: "mV"
+    rangeLow: 0.0
+    rangeHigh: 100.0
+    offset: 0.0
+    scale: 0.1
+  - label: "III"
+    uom: "mV"
+    rangeLow: 0.0
+    rangeHigh: 100.0
+    offset: 0.0
+    scale: 0.1
+  - label: "III"
+    uom: "mV"
+    rangeLow: 0.0
+    rangeHigh: 100.0
+    offset: 0.0
+    scale: 0.1
+  - label: "V"
+    uom: "mV"
+    rangeLow: 0.0
+    rangeHigh: 100.0
+    offset: 0.0
+    scale: 0.1
+  - label: "AVF"
+    uom: "mV"
+    rangeLow: 0.0
+    rangeHigh: 100.0
+    offset: 0.0
+    scale: 0.1
+  - label: "AVL"
+    uom: "mV"
+    rangeLow: 0.0
+    rangeHigh: 100.0
+    offset: 0.0
+    scale: 0.1
+  - label: "AVR"
+    uom: "mV"
+    rangeLow: 0.0
+    rangeHigh: 100.0
+    offset: 0.0
+    scale: 0.1
+  - label: "SPO2"
+    uom: "%"
+    rangeLow: 0.0
+    rangeHigh: 100.0
+    offset: 0.0
+    scale: 0.1
+  - label: "CO2"
+    uom: "mmHg"
+    rangeLow: 0.0
+    rangeHigh: 100.0
+    offset: 0.0
+    scale: 0.1
+  - label: "RR"
+    uom: "Imp"
+    rangeLow: 0.0
+    rangeHigh: 100.0
+    offset: 0.0
+    scale: 0.1
+  
