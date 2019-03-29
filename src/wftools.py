@@ -88,7 +88,7 @@ def runApp(flow: str, srcFile: str, srcDir: str, dstDir: str):
     if flow == "file":
         xml2BinState = Xml2BinState()
         xml2BinState.setTimestampTm(timestampTm)
-        if g_converter_type == "ge":
+        if g_converter_type == "bernoulli":
             xmlconverter = XmlConverterForGE(dstDir, g_output_fn_pattern, g_output_fn_ext,
                                              int(g_sampling_rate), g_channel_pattern_list, g_channel_info_list,
                                              g_ignore_gap, g_ignore_gap_between_segs, g_warning_on_gaps,
@@ -105,7 +105,7 @@ def runApp(flow: str, srcFile: str, srcDir: str, dstDir: str):
         numFilesProcessed = 0
         xml2BinState = Xml2BinState()
         xml2BinState.setTimestampTm(timestampTm)
-        if g_converter_type == "ge":
+        if g_converter_type == "bernoulli":
             xmlconverter = XmlConverterForGE(dstDir, g_output_fn_pattern, g_output_fn_ext,
                                              int(g_sampling_rate), g_channel_pattern_list, g_channel_info_list,
                                              g_ignore_gap, g_ignore_gap_between_segs, g_warning_on_gaps,

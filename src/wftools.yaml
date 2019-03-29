@@ -5,7 +5,7 @@
 # example:
 # output_fn_pattern: "{id1}_{starttime}_{endtime}_{exetime}_{id2}_{id3}"
 # output_fn_pattern: "{id1}_{starttime}_{endtime}_{exetime}"
-# converter_type: "ge", or "bedmaster"
+# converter_type: "bernoulli", or "bedmaster"
 # 
 converter_type: "bedmaster"
 converter_options:
