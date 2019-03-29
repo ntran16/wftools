@@ -113,7 +113,7 @@ class XmlConverterForBedMaster:
         # end-if
 
     # return total number of samples written
-    def convert(self, xmlFile: str, tagsDict: Dict, x: Xml2BinState, print_processing_fn: bool=False):
+    def convert(self, xmlFile: str, tagsDict: Dict, x: Xml2BinState, print_processing_fn: bool = False):
         """
         convert to BIN file from XML
         """
@@ -154,7 +154,8 @@ class XmlConverterForBedMaster:
                 self.header = binFileOut.header
                 second = int(math.floor(self.header.Second))
                 microsecond = int((self.header.Second - math.floor(self.header.Second)) * 100)
-                self.headerStartDt = datetime.datetime(self.header.Year, self.header.Month, self.header.Day, self.header.Hour, self.header.Minute, second, microsecond)
+                self.headerStartDt = datetime.datetime(self.header.Year, self.header.Month, self.header.Day,
+                                                       self.header.Hour, self.header.Minute, second, microsecond)
                 numSamples = self.header.SamplesPerChannel
             # end-if len(x.lastBinFilename)
             if print_processing_fn:
@@ -175,7 +176,8 @@ class XmlConverterForBedMaster:
                                 if self.header is None:
                                     self.headerStartDt = collectionTimeDt
                                     self.header = CFWBINARY()
-                                    self.header.setValue(1.0 / self.defaultSamplesPerSec, collectionTimeDt.year, collectionTimeDt.month, collectionTimeDt.day, collectionTimeDt.hour, collectionTimeDt.minute, collectionTimeDt.second, 0, 0)
+                                    self.header.setValue(1.0 / self.defaultSamplesPerSec, collectionTimeDt.year, collectionTimeDt.month,
+                                                         collectionTimeDt.day, collectionTimeDt.hour, collectionTimeDt.minute, collectionTimeDt.second, 0, 0)
                                 # print(collectionTime, collectionTimeUTC)
                                 idx = 0
                                 for child4 in child3:
@@ -203,7 +205,8 @@ class XmlConverterForBedMaster:
                                             self.outputFileList.append(x.lastBinFilename)
                                         # reset new headerStartDt
                                         self.headerStartDt = collectionTimeDt
-                                        self.header.setValue(1.0 / self.defaultSamplesPerSec, collectionTimeDt.year, collectionTimeDt.month, collectionTimeDt.day, collectionTimeDt.hour, collectionTimeDt.minute, collectionTimeDt.second, 0, 0)
+                                        self.header.setValue(1.0 / self.defaultSamplesPerSec, collectionTimeDt.year, collectionTimeDt.month,
+                                                             collectionTimeDt.day, collectionTimeDt.hour, collectionTimeDt.minute, collectionTimeDt.second, 0, 0)
                                     firstBinFile = False
                                     self.header.NChannels = len(tempChanInfo)
                                     fmt = self.outputFnTimeFormatDict.get("starttime", None) if (self.outputFnTimeFormatDict is not None) else None

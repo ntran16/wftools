@@ -113,7 +113,7 @@ class XmlConverterForGE:
         # end-if
 
     # return total number of samples written
-    def convert(self, xmlFile: str, tagsDict: Dict, x: Xml2BinState, print_processing_fn: bool=False):
+    def convert(self, xmlFile: str, tagsDict: Dict, x: Xml2BinState, print_processing_fn: bool = False):
         """
         convert to BIN file from XML
         """
@@ -154,7 +154,8 @@ class XmlConverterForGE:
                 self.header = binFileOut.header
                 second = int(math.floor(self.header.Second))
                 microsecond = int((self.header.Second - math.floor(self.header.Second)) * 100)
-                self.headerStartDt = datetime.datetime(self.header.Year, self.header.Month, self.header.Day, self.header.Hour, self.header.Minute, second, microsecond)
+                self.headerStartDt = datetime.datetime(self.header.Year, self.header.Month, self.header.Day,
+                                                       self.header.Hour, self.header.Minute, second, microsecond)
                 numSamples = self.header.SamplesPerChannel
             # end-if len(x.lastBinFilename)
             if print_processing_fn:
@@ -177,7 +178,8 @@ class XmlConverterForGE:
                                         if self.header is None:
                                             self.headerStartDt = pollTimeDt
                                             self.header = CFWBINARY()
-                                            self.header.setValue(1.0 / self.defaultSamplesPerSec, pollTimeDt.year, pollTimeDt.month, pollTimeDt.day, pollTimeDt.hour, pollTimeDt.minute, pollTimeDt.second, 0, 0)
+                                            self.header.setValue(1.0 / self.defaultSamplesPerSec, pollTimeDt.year, pollTimeDt.month,
+                                                                 pollTimeDt.day, pollTimeDt.hour, pollTimeDt.minute, pollTimeDt.second, 0, 0)
                                         # print(pollTime, tz_offset)
                                         idx = 0
                                         for child4 in child3:
@@ -189,7 +191,8 @@ class XmlConverterForGE:
                                                     # print(wavedata)
                                                     if self.defaultSamplesPerSec != hz:
                                                         wavedata = fixsamplingarr(wavedata, hz, self.defaultSamplesPerSec)
-                                                    tempChanInfo.append({"label": channel, "data": wavedata, "points": points, "pointsBytes": pointsBytes, "min": min_, "max": max_, "offset": offset, "gain": gain, "hz": hz})
+                                                    tempChanInfo.append({"label": channel, "data": wavedata, "points": points, "pointsBytes": pointsBytes,
+                                                                         "min": min_, "max": max_, "offset": offset, "gain": gain, "hz": hz})
                                                     tempChanLabel.append(channel)
                                                     tempChanLabel2Index[channel] = idx
                                                     idx += 1
@@ -206,7 +209,8 @@ class XmlConverterForGE:
                                                     self.outputFileList.append(x.lastBinFilename)
                                                 # reset new headerStartDt
                                                 self.headerStartDt = pollTimeDt
-                                                self.header.setValue(1.0 / self.defaultSamplesPerSec, pollTimeDt.year, pollTimeDt.month, pollTimeDt.day, pollTimeDt.hour, pollTimeDt.minute, pollTimeDt.second, 0, 0)
+                                                self.header.setValue(1.0 / self.defaultSamplesPerSec, pollTimeDt.year, pollTimeDt.month,
+                                                                     pollTimeDt.day, pollTimeDt.hour, pollTimeDt.minute, pollTimeDt.second, 0, 0)
                                             firstBinFile = False
                                             self.header.NChannels = len(tempChanInfo)
                                             fmt = self.outputFnTimeFormatDict.get("starttime", None) if (self.outputFnTimeFormatDict is not None) else None
@@ -304,7 +308,7 @@ class XmlConverterForGE:
         # end-for
         if hasRenameTo:
             print("Renaming channels in output files...")
-            numFilesChanged = 0 
+            numFilesChanged = 0
             for fn in self.outputFileList:
                 updatedFile = False
                 with BinFile(fn, "r+") as f:

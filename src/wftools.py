@@ -168,6 +168,7 @@ def runApp(flow: str, srcFile: str, srcDir: str, dstDir: str):
         xmlconverter.renameChannels(print_rename_details=True)
         print("Done")
 
+
 print("{0} v{1} - Copyright(c) HuLab@UCSF 2019".format(g_exename, g_version))
 args = getArgs()
 g_converter_type = ""

@@ -6,6 +6,7 @@ from binfilepy import CFWBINARY
 from binfilepy import CFWBCHANNEL
 from binfilepy import constant
 
+
 def test_binfilewriter():
     filename = "mytest.bin"
     outfile = Path(filename)
