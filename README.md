@@ -5,7 +5,7 @@ The project consists of the following executables:
 
 - `wfconvert` process patient monitoring archive files, and convert the output to binary format for furtner processing.
 - `wfdisplay` display waveform for quick inspection (coming soon)
-- `wfprocess` manipulate the waveform file (like select specific channels and combining multiple files, etc.) (coming soon)
+- `wfprocess` manipulate waveform files (example: select specific channels and combining multiple files, etc.) (coming soon)
 
 It takes configuration in YAML format.  Please check the YAML file in the repository for example.
 
@@ -43,7 +43,7 @@ Finished processing at: 2019-03-13 10:34:22
 Total elapsed time: 0 days, 0 hours, 0 minutes, 18.19 seconds
 ```
 
-## Sample wfconvert.yaml file
+## Sample wfconvert_config.yaml file
 ```
 # output_fn_pattern, supported names are: 
 # starttime, endtime, exetime, id1, id2, id3, id4, id5
