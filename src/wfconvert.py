@@ -149,7 +149,7 @@ def runApp(flow: str, srcFile: str, srcDir: str, dstDir: str):
         while hasSegments:
             basefn = Path(srcFile).stem
             xmlOutputFn = "{0}_{1}_{2}_wf.xml".format(basefn, dtTimestampFormat(timestampTm), startSegment)
-            xmlOutputFullFn = execute_ext(ext_exe, srcFile, "-cs", xmlOutputFn, startSegment, endSegment)
+            xmlOutputFullFn = execute_ext(ext_exe, srcFile, ext_param, xmlOutputFn, startSegment, endSegment)
             xmlProcesingStarttime = datetime.datetime.now()
             print("Processing XML from segment {0} to segment {1}...".format(startSegment, endSegment))
             xmlconverter.clearState()
