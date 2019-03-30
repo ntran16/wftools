@@ -4,7 +4,7 @@ Waveform extraction/processing tools for patient monitoring archive files.
 The project consists of the following executables:
 
 - `wfconvert` process patient monitoring archive files, and convert the output to binary format for furtner processing.
-- `wfdisplay` display waveform for quick inspection (coming soon)
+- `wfshow` show waveform for quick inspection (coming soon)
 - `wfprocess` manipulate waveform files (example: select specific channels and combining multiple files, etc.) (coming soon)
 
 It takes configuration in YAML format.  Please check the YAML file in the repository for example.
