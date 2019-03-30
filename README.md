@@ -1,7 +1,11 @@
 # wftools
 Waveform extraction/processing tools for patient monitoring archive files.
 
-`wftools` process patient monitoring archive files, and convert the output to binary format for furtner processing.
+The project consists of the following executables:
+
+- `wfconvert` process patient monitoring archive files, and convert the output to binary format for furtner processing.
+- `wfdisplay` display waveform for quick inspection (coming soon)
+- `wfprocess` manipulate the waveform file (like select specific channels and combining multiple files, etc.) (coming soon)
 
 It takes configuration in YAML format.  Please check the YAML file in the repository for example.
 
@@ -13,14 +17,14 @@ This version has been tested under Python 3.7 on Windows.
 
 ## To get help
 ```
-> wftools -h
+> wfconvert -h
 ```
 
 ## Example
 ```
->wftools -d D:\data_extraction\test -o D:\data_extraction\test_output
-wftools v0.4 - Copyright(c) HuLab@UCSF 2019
-reading config file: wftools_config.yaml
+>wfconvert -d D:\data_extraction\test -o D:\data_extraction\test_output
+wfconvert v0.4 - Copyright(c) HuLab@UCSF 2019
+reading config file: wfconvert_config.yaml
 Start processing at: 2019-03-13 10:34:04
 Processing XML file: 11-30-08-000Z.xml
 Processing XML file: 12-00-08-000Z.xml
@@ -39,7 +43,7 @@ Finished processing at: 2019-03-13 10:34:22
 Total elapsed time: 0 days, 0 hours, 0 minutes, 18.19 seconds
 ```
 
-## Sample wftools.yaml file
+## Sample wfconvert.yaml file
 ```
 # output_fn_pattern, supported names are: 
 # starttime, endtime, exetime, id1, id2, id3, id4, id5
@@ -94,7 +98,8 @@ v0.5
 - Prepare for open source release
 - Updated Makefile
 - Updated project structure, tests, etc.
-- Renamed project as "wftools"
+- Renamed project to "wftools"
+- Renamed executable to "wfconvert"
 
 v0.4
 - Support for BedMaster STP file format (based on STPToolkit v8.2 or later)

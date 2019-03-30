@@ -14,7 +14,7 @@ from xmlconvert import XmlConverterForBedMaster
 from typing import Dict
 
 g_version = "0.5"
-g_exename = "wftools"
+g_exename = "wfconvert"
 default_config_fn = "{0}_config.yaml".format(g_exename)
 default_sampling_rate = 240
 default_fn_ext = "adibin"
