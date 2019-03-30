@@ -23,7 +23,7 @@ This version has been tested under Python 3.7 on Windows.
 ## Example
 ```
 >wfconvert -d D:\data_extraction\test -o D:\data_extraction\test_output
-wfconvert v0.4 - Copyright(c) HuLab@UCSF 2019
+wfconvert v0.5 - Copyright(c) HuLab@UCSF 2019
 reading config file: wfconvert_config.yaml
 Start processing at: 2019-03-13 10:34:04
 Processing XML file: 11-30-08-000Z.xml
@@ -95,6 +95,7 @@ channel_info_list:
 
 ## Release Notes
 v0.5
+- Fixed bug of not using key "exe_param" in config file
 - Prepare for open source release
 - Updated Makefile
 - Updated project structure, tests, etc.
