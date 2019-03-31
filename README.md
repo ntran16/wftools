@@ -95,6 +95,7 @@ v0.5
 - Updated project structure, tests, etc.
 - Renamed project to "wftools"
 - Renamed executable to "wfconvert"
+- Added executable "wfshow"
 
 v0.4
 - Support for BedMaster STP file format (based on STPToolkit v8.2 or later)
