@@ -114,18 +114,21 @@ class BinFile:
                 self.f = open(self.filename, "rb")
             except:
                 self.f = None
+                raise BinFileError("File not found!")
         elif self.mode == "r+":
             try:
                 self.f = open(self.filename, "rb+")
             except:
                 self.f = None
+                raise BinFileError("File not found!")
         elif self.mode == "w":
             try:
                 outfile = Path(self.filename)
                 if not outfile.exists():
                     self.f = open(self.filename, "wb")
                 else:
-                    raise BinFileError("File not exist!")
+                    self.f = None
+                    raise BinFileError("File exist already!")
             except:
                 self.f = None
                 raise BinFileError("Cannot open file!")

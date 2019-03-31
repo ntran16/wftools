@@ -30,24 +30,26 @@ def getArgs():
 
 
 def findMinMaxStep(arr: np.ndarray):
-    # Need to improve
-    # I am lazy... so just pick a small number for NaN (like gap)
-    nan = -1000000
+    # Try to Auto-fit the curve in the min/max range
+    min_thres = -1000
+    max_thres = 1000
     n = len(arr)
-    _min = None
-    _max = None
+    _min = sys.float_info.max
+    _max = -sys.float_info.max
     for i in range(0, n):
-        if _min is None:
+        if (arr[i] < _min) and (arr[i] >= min_thres):
             _min = arr[i]
-        if _max is None:
+        if (arr[i] > _max) and (arr[i] <= max_thres):
             _max = arr[i]
-        if (arr[i] < _min) or (arr[i] < nan):
-            _min = arr[i]
-        if (arr[i] > _max):
-            _max = arr[i]
-    if _min < nan:
-        _min = 0
-    _min = round(_min, 2) 
+    if _min == sys.float_info.max:  # never assigned
+        _min = min_thres
+    if _min < min_thres:
+        _min = min_thres
+    if _max == -sys.float_info.max:  # never assigned
+        _max = max_thres
+    if _max > max_thres:
+        _max = max_thres
+    _min = round(_min, 2)
     _max = round(_max, 2)
     if (_min == _max):
         _min -= 1

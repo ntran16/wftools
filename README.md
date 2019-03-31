@@ -20,7 +20,7 @@ This version has been tested under Python 3.7 on Windows.
 > wfconvert -h
 ```
 
-## Example
+## Example: wfconvert
 ```
 >wfconvert -d D:\data_extraction\test -o D:\data_extraction\test_output
 wfconvert v0.5 - Copyright(c) HuLab@UCSF 2019
@@ -29,18 +29,12 @@ Start processing at: 2019-03-13 10:34:04
 Processing XML file: 11-30-08-000Z.xml
 Processing XML file: 12-00-08-000Z.xml
 Processing XML file: 12-30-08-000Z.xml
-Processing XML file: 13-00-08-000Z.xml
-Processing XML file: 13-30-08-000Z.xml
-Processing XML file: 14-00-08-000Z.xml
-Processing XML file: 14-30-08-000Z.xml
-Processing XML file: 15-00-08-000Z.xml
-Processing XML file: 15-30-09-000Z.xml
-Processing XML file: 16-00-09-000Z.xml
-Processing XML file: 16-30-09-000Z.xml
-Processing XML file: 17-00-09-000Z.xml
-Number of XML files processed = 12
-Finished processing at: 2019-03-13 10:34:22
-Total elapsed time: 0 days, 0 hours, 0 minutes, 18.19 seconds
+...
+...
+```
+## Example: wfshow
+```
+wfshow -f D:\test\test1.adibin -s 45000 -n 100 --size=1280x720
 ```
 
 ## Sample wfconvert_config.yaml file
