@@ -18,41 +18,45 @@ g_version = "0.1"
 g_exename = "wfshow"
 default_config_fn = "{0}_config.yaml".format(g_exename)
 
+
 def getArgs():
     parser = argparse.ArgumentParser()
     parser.add_argument("-f", "--file", help="Input File", required=True)
     parser.add_argument("-s", "--start", help="Offset from start of file", required=True)
     parser.add_argument("-n", "--length", help="Length of samples", required=True)
     parser.add_argument("--size", help="Size of the graph in pixels (e.g. 1024x768)")
-    parser.add_argument("--use_num_samples_for_start", help="Offset interpreted as number of samples (instead of seconds)", action="store_true")
-    parser.add_argument("--use_num_samples_for_length", help="Length interpreted as number of samples (instead of seconds)", action="store_true")
+    parser.add_argument("--num_samples", help="Use number of samples as unit for offset and length (instead of # of seconds)", action="store_true")
     return parser.parse_args()
 
 
 def findMinMaxStep(arr: np.ndarray):
     # Need to improve
     # I am lazy... so just pick a small number for NaN (like gap)
-    nan = -1000
+    nan = -1000000
     n = len(arr)
     _min = None
     _max = None
     for i in range(0, n):
-        if _min == None:
+        if _min is None:
             _min = arr[i]
-        if _max == None:
+        if _max is None:
             _max = arr[i]
-        if arr[i] < _min and arr[i] > nan:
+        if (arr[i] < _min) or (arr[i] < nan):
             _min = arr[i]
-        if arr[i] > _max:
+        if (arr[i] > _max):
             _max = arr[i]
     if _min < nan:
         _min = 0
     _min = round(_min, 2) 
     _max = round(_max, 2)
+    if (_min == _max):
+        _min -= 1
+        _max += 1
     _step = round((_max - _min) / 5, 2)
-    _max += _step / 2
-    _min -= _step /2
+    _max += _step
+    _min -= _step
     return _min, _max, _step
+
 
 def plotChannels(fp: str, f: BinFile, data: List[array], width: int, height: int):
     filename = Path(fp).name
@@ -67,7 +71,7 @@ def plotChannels(fp: str, f: BinFile, data: List[array], width: int, height: int
     if (width <= 0) or (height <= 0):
         fig, axs = plt.subplots(numChannels, 1, sharex=True)
     else:
-        fig, axs = plt.subplots(numChannels, 1, sharex=True, figsize=(width/100.0, height/100.0), dpi=100)
+        fig, axs = plt.subplots(numChannels, 1, sharex=True, figsize=(width / 100.0, height / 100.0), dpi=100)
     # Remove horizontal space between axes
     fig.subplots_adjust(hspace=0)
     # Plot each graph, and manually set the y tick values
@@ -81,10 +85,11 @@ def plotChannels(fp: str, f: BinFile, data: List[array], width: int, height: int
     plt.show()
     return
 
-def runApp(fn, offset, length, width, height, useNumSamplesForWidth, useNumSamplesForLength):
+
+def runApp(fn, offset, length, width, height, useNumSamples):
     with BinFile(fn, "r") as f:
         f.readHeader()
-        data = f.readChannelData(offset, length, useNumSamplesForWidth == False, useNumSamplesForLength == False)
+        data = f.readChannelData(offset, length, useSecForOffset=not useNumSamples, useSecForLength=not useNumSamples)
         if (data is not None) and (len(data) > 0):
             numSamples = len(data[0])
             if numSamples > 0:
@@ -103,5 +108,5 @@ if args.size is not None:
     else:
         print("--size argument must be in the form of 'WxH', like 680x480 !!")
         valid = False
-runApp(args.file, float(args.start), float(args.length), width, height, args.use_num_samples_for_start, args.use_num_samples_for_length)
+runApp(args.file, float(args.start), float(args.length), width, height, args.num_samples)
 print("done.")
