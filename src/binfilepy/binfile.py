@@ -3,6 +3,7 @@ This modules exports the format in BIN file
 """
 
 import os
+import sys
 from pathlib import Path
 import datetime
 from array import array
@@ -124,7 +125,7 @@ class BinFile:
                 if not outfile.exists():
                     self.f = open(self.filename, "wb")
                 else:
-                    raise
+                    raise BinFileError("File not exist!")
             except:
                 self.f = None
                 raise BinFileError("Cannot open file!")
@@ -136,22 +137,20 @@ class BinFile:
         self.channels.append(channelDef)
 
     def readHeader(self):
-        intsize = struct.calcsize("i")
-        doublesize = struct.calcsize("d")
         self.header = CFWBINARY()
         self.header.magic[0], self.header.magic[1], self.header.magic[2], self.header.magic[3] = struct.unpack("cccc", self.f.read(4))
-        self.header.Version = struct.unpack("i", self.f.read(intsize))[0]
-        self.header.secsPerTick = struct.unpack("d", self.f.read(doublesize))[0]
-        self.header.Year, self.header.Month, self.header.Day, self.header.Hour, self.header.Minute = struct.unpack("iiiii", self.f.read(intsize * 5))
-        self.header.Second, self.header.trigger = struct.unpack("dd", self.f.read(doublesize * 2))
-        self.header.NChannels, self.header.SamplesPerChannel, self.header.TimeChannel, self.header.DataFormat = struct.unpack("iiii", self.f.read(intsize * 4))
+        self.header.Version = struct.unpack("i", self.f.read(constant.INT32_SIZE))[0]
+        self.header.secsPerTick = struct.unpack("d", self.f.read(constant.DOUBLE_SIZE))[0]
+        self.header.Year, self.header.Month, self.header.Day, self.header.Hour, self.header.Minute = struct.unpack("iiiii", self.f.read(constant.INT32_SIZE * 5))
+        self.header.Second, self.header.trigger = struct.unpack("dd", self.f.read(constant.DOUBLE_SIZE * 2))
+        self.header.NChannels, self.header.SamplesPerChannel, self.header.TimeChannel, self.header.DataFormat = struct.unpack("iiii", self.f.read(constant.INT32_SIZE * 4))
         self.channels = []
         for i in range(self.header.NChannels):
             buf = self.f.read(32)
             label = buf.decode("ASCII").rstrip('\0')
             buf = self.f.read(32)
             uom = buf.decode("ASCII").rstrip('\0')
-            scale, offset, rangeHigh, rangeLow = struct.unpack("dddd", self.f.read(doublesize * 4))
+            scale, offset, rangeHigh, rangeLow = struct.unpack("dddd", self.f.read(constant.DOUBLE_SIZE * 4))
             channel = CFWBCHANNEL(label, uom, scale, offset, rangeHigh, rangeLow)
             self.channels.append(channel)
 
@@ -200,6 +199,42 @@ class BinFile:
                 self.f.write(struct.pack("d", channel.offset))
                 self.f.write(struct.pack("d", channel.RangeHigh))
                 self.f.write(struct.pack("d", channel.RangeLow))
+
+    def readChannelData(self, offset: float, length: float, useSecForOffset: bool, useSecForLength: bool):
+        offsetSampleNum = int(offset / self.header.secsPerTick) if useSecForOffset else int(offset)
+        lengthSampleNum = int(length / self.header.secsPerTick) if useSecForLength else int(length)
+        if (self.header.DataFormat == constant.FORMAT_DOUBLE):
+            sampleSize = constant.DOUBLE_SIZE
+        elif (self.header.DataFormat == constant.FORMAT_FLOAT):
+            sampleSize = constant.FLOAT_SIZE
+        elif (self.header.DataFormat == constant.FORMAT_SHORT):
+            sampleSize = constant.SHORT_SIZE
+        # offset and lenght are 0, then read entire file
+        if (offsetSampleNum == 0) and (lengthSampleNum == 0):
+            lengthSampleNum = self.header.SamplesPerChannel
+	    # do not read over the end of file
+        elif (lengthSampleNum + offsetSampleNum) > self.header.SamplesPerChannel:
+            lengthSampleNum = self.header.SamplesPerChannel - offsetSampleNum
+        # do not read anything if offset is bigger then total sample number
+        elif offsetSampleNum > self.header.SamplesPerChannel:
+            lengthSampleNum = 0
+        self.f.seek(constant.CFWB_SIZE + constant.CHANNEL_SIZE * self.header.NChannels + offsetSampleNum * sampleSize * self.header.NChannels, 0)
+        channelArr = []
+        for i in range(0, self.header.NChannels):
+            channelArr.append(array("d", (0,) * lengthSampleNum))
+
+        for x in range(0, lengthSampleNum):
+            i = 0
+            for c in channelArr:
+                if self.header.DataFormat == constant.FORMAT_DOUBLE:
+                    c[x] = struct.unpack("h", self.f.read(constant.SHORT_SIZE))[0]
+                elif self.header.DataFormat == constant.FORMAT_FLOAT:
+                    c[x] = struct.unpack("f", self.f.read(constant.FLOAT_SIZE))[0]
+                elif self.header.DataFormat == constant.FORMAT_SHORT:
+                    v = struct.unpack("h", self.f.read(constant.SHORT_SIZE))[0]
+                    c[x] = self.channels[i].scale * (v + self.channels[i].offset)
+            i += 1
+        return channelArr
 
     def writeChannelData(self, chanData: List[List[Any]], fs: int = 0, gapInSecs: int = 0):
         # 2 means the end of file
