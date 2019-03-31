@@ -212,7 +212,7 @@ class BinFile:
         # offset and lenght are 0, then read entire file
         if (offsetSampleNum == 0) and (lengthSampleNum == 0):
             lengthSampleNum = self.header.SamplesPerChannel
-	    # do not read over the end of file
+        # do not read over the end of file
         elif (lengthSampleNum + offsetSampleNum) > self.header.SamplesPerChannel:
             lengthSampleNum = self.header.SamplesPerChannel - offsetSampleNum
         # do not read anything if offset is bigger then total sample number
@@ -232,7 +232,10 @@ class BinFile:
                     c[x] = struct.unpack("f", self.f.read(constant.FLOAT_SIZE))[0]
                 elif self.header.DataFormat == constant.FORMAT_SHORT:
                     v = struct.unpack("h", self.f.read(constant.SHORT_SIZE))[0]
-                    c[x] = self.channels[i].scale * (v + self.channels[i].offset)
+                    if v <= constant.GAP_SHORT_VALUE:
+                        c[x] = -sys.float_info.max
+                    else:
+                        c[x] = self.channels[i].scale * (v + self.channels[i].offset)
             i += 1
         return channelArr
 
