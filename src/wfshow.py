@@ -3,7 +3,7 @@ import sys
 import re
 import yaml
 import argparse
-import datetime
+from datetime import datetime
 from pathlib import Path
 from array import array
 from binfilepy import BinFile
@@ -26,6 +26,7 @@ def getArgs():
     parser.add_argument("-n", "--length", help="Length of samples", required=True)
     parser.add_argument("--size", help="Size of the graph in pixels (e.g. 1024x768)")
     parser.add_argument("--num_samples", help="Use number of samples as unit for offset and length (instead of # of seconds)", action="store_true")
+    parser.add_argument("--show_header_only", help="Show header info only without plotting graphs", action="store_true")
     return parser.parse_args()
 
 
@@ -88,14 +89,34 @@ def plotChannels(fp: str, f: BinFile, data: List[array], width: int, height: int
     return
 
 
-def runApp(fn, offset, length, width, height, useNumSamples):
+def printHeaderInfo(f: BinFile):
+    print("Binary file info:")
+    dt = datetime.strptime("{0}/{1}/{2} {3}:{4}:{5:.0f}".format(f.header.Year, f.header.Month, f.header.Day, f.header.Hour, f.header.Minute, f.header.Second), "%Y/%m/%d %H:%M:%S")
+    print("Start Date/Time: {0}".format(dt.strftime("%Y/%m/%d %H:%M:%S")))
+    print("Secs Per Tick: {0:.6f}".format(f.header.secsPerTick))
+    print("Samples Per Sec: {0:.3f}".format(1.0 / f.header.secsPerTick))
+    print("Data Format: {0}".format(f.header.DataFormat))
+    print("#Samples: {0}".format(f.header.SamplesPerChannel))
+    print("#Channels: {0}".format(f.header.NChannels))
+    for c in f.channels:
+        print("  Channel: {0}".format(c.Title))
+        print("    - Uom: {0}".format(c.Units))
+        print("    - Scale: {0}".format(c.scale))
+        print("    - Offset: {0}".format(c.offset))
+        print("    - RangeLow: {0}".format(c.RangeLow))
+        print("    - RangeHigh: {0}".format(c.RangeHigh))
+
+
+def runApp(fn, offset, length, width, height, useNumSamples, showHeaderOnly):
     with BinFile(fn, "r") as f:
         f.readHeader()
-        data = f.readChannelData(offset, length, useSecForOffset=not useNumSamples, useSecForLength=not useNumSamples)
-        if (data is not None) and (len(data) > 0):
-            numSamples = len(data[0])
-            if numSamples > 0:
-                plotChannels(fn, f, data, width, height)
+        printHeaderInfo(f)
+        if not showHeaderOnly:
+            data = f.readChannelData(offset, length, useSecForOffset=not useNumSamples, useSecForLength=not useNumSamples)
+            if (data is not None) and (len(data) > 0):
+                numSamples = len(data[0])
+                if numSamples > 0:
+                    plotChannels(fn, f, data, width, height)
     return
 
 print("{0} v{1} - Copyright(c) HuLab@UCSF 2019".format(g_exename, g_version))
@@ -110,5 +131,5 @@ if args.size is not None:
     else:
         print("--size argument must be in the form of 'WxH', like 680x480 !!")
         valid = False
-runApp(args.file, float(args.start), float(args.length), width, height, args.num_samples)
+runApp(args.file, float(args.start), float(args.length), width, height, args.num_samples, args.show_header_only)
 print("done.")
