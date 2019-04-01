@@ -236,7 +236,7 @@ class BinFile:
                 elif self.header.DataFormat == constant.FORMAT_SHORT:
                     v = struct.unpack("h", self.f.read(constant.SHORT_SIZE))[0]
                     if v in constant.GAP_SHORT_VALUES:
-                        c[x] = -sys.float_info.max
+                        c[x] = constant.MIN_DOUBLE_VALUE
                     else:
                         c[x] = self.channels[i].scale * (v + self.channels[i].offset)
             i += 1
@@ -253,13 +253,13 @@ class BinFile:
             for j in range(numSamples):
                 for i in range(numChannels):
                     if self.header.DataFormat == constant.FORMAT_SHORT:
-                        d = -32767
+                        d = constant.MIN_SHORT_VALUE
                         self.f.write(struct.pack("h", d))
                     elif self.header.DataFormat == constant.FORMAT_DOUBLE:
-                        d = -2147483647
+                        d = constant.MIN_DOUBLE_VALUE
                         self.f.write(struct.pack("d", d))
                     elif self.header.DataFormat == constant.FORMAT_FLOAT:
-                        d = -sys.float_info.max
+                        d = constant.MIN_FLOAT_VALUE
                         self.f.write(struct.pack("f", d))
         overlappedSamples = (-1 * gapInSecs * fs) if gapInSecs < 0 else 0
         numSamplesWritten += max(len(chanData[0]) - overlappedSamples, 0)
@@ -270,13 +270,13 @@ class BinFile:
                 # bug fix, prevent idx out of range
                 out_of_range = j > (len(chanData[i]) - 1)
                 if self.header.DataFormat == constant.FORMAT_SHORT:
-                    d = chanData[i][j] if not out_of_range else -32767
+                    d = chanData[i][j] if not out_of_range else constant.MIN_SHORT_VALUE
                     self.f.write(struct.pack("h", d))
                 elif self.header.DataFormat == constant.FORMAT_DOUBLE:
-                    d = chanData[i][j] if not out_of_range else -2147483647
+                    d = chanData[i][j] if not out_of_range else constant.MIN_DOUBLE_VALUE
                     self.f.write(struct.pack("d", d))
                 elif self.header.DataFormat == constant.FORMAT_FLOAT:
-                    d = chanData[i][j] if not out_of_range else -sys.float_info.max
+                    d = chanData[i][j] if not out_of_range else constant.MIN_FLOAT_VALUE
                     self.f.write(struct.pack("f", d))
                 else:
                     # raise exception
