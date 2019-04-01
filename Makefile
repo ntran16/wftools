@@ -41,5 +41,5 @@ lint-fix:
 test:
 	py.test . --verbose
 
-test_binfilepy:
-	pytest ./tests/test_binfilepy.py -k test_binfilewriter -s
+test_parsetime:
+	pytest ./tests/test_myutil.py -k test_parsetime -s
