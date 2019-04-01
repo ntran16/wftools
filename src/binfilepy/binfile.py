@@ -235,7 +235,7 @@ class BinFile:
                     c[x] = struct.unpack("f", self.f.read(constant.FLOAT_SIZE))[0]
                 elif self.header.DataFormat == constant.FORMAT_SHORT:
                     v = struct.unpack("h", self.f.read(constant.SHORT_SIZE))[0]
-                    if v <= constant.GAP_SHORT_VALUE:
+                    if v in constant.GAP_SHORT_VALUES:
                         c[x] = -sys.float_info.max
                     else:
                         c[x] = self.channels[i].scale * (v + self.channels[i].offset)
