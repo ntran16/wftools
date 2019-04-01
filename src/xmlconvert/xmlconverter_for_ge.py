@@ -200,7 +200,7 @@ class XmlConverterForGE:
                                         # progress
                                         if (firstBinFile is True) or (len(tempChanLabel) > 0 and self.channelChanged(chanLabel, tempChanLabel)):
                                             if firstBinFile is False:
-                                                binFileOut.closeFile()
+                                                binFileOut.close()
                                                 binFileOut = None
                                                 # rename the file that we just closed (if filename pattern has {endtime})
                                                 self.renameOutputFnWithEndtime(numSamples, tagsDict, x, filename)
@@ -285,7 +285,7 @@ class XmlConverterForGE:
             # end-if root
         # end-if
         if binFileOut is not None:
-            binFileOut.closeFile()
+            binFileOut.close()
             binFileOut = None
             # rename the file that we just closed (if filename pattern has {endtime})
             self.renameOutputFnWithEndtime(numSamples, tagsDict, x, filename)
