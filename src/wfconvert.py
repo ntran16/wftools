@@ -95,7 +95,7 @@ def execute_ext(ext_exe: str, srcFn: str, cmdParam: str, xmlOutputFn: str, start
     if not os.path.exists(tempDir):
         os.mkdir(tempDir)
     xmlOutputFullFn = Path(tempDir).joinpath(xmlOutputFn)
-    cmd = "{0} {1} -o {2} {3}".format(ext_exe, srcFn, xmlOutputFullFn, cmdParam)
+    cmd = '{0} {1} -o "{2}" {3}'.format(ext_exe, srcFn, xmlOutputFullFn, cmdParam)
     if startSegment >= 0:
         cmd = cmd + " -s {0}".format(int(startSegment))
     if endSegment >= 0:
@@ -310,6 +310,7 @@ if valid:
     starttime = datetime.datetime.now()
     print("Start processing at: {0}".format(dtFormat(starttime)))
     printOptions()
+    g_file = ''.join(['"', g_file, '"'])
     result = runApp(flow, g_file, g_dir, g_output_dir)
     if result is not None and result != 0:
         print("Error during processing!")

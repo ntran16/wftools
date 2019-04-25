@@ -10,7 +10,7 @@
 converter_type: "bedmaster"
 converter_options:
   - key: "stptools_exe"
-    value: "D:\\Utils\\StpToolkit_8.2\\StpToolkit.exe"
+    value: "C:\\Users\\sf109991\\Desktop\\stp-missionbay\\wftools\\StpToolkit_8.2\\StpToolkit.exe"
   - key: "stptools_param"
     value: "-cs"
   - key: "keep_temp_files"
@@ -48,77 +48,77 @@ channel_info_list:
     rangeLow: 0.0
     rangeHigh: 1.0
     offset: 0.0
-    scale: 0.1
+    scale: 2.4400
   - label: "PLETH"
     uom: "mV"
     rangeLow: 0.0
     rangeHigh: 1.0
     offset: 0.0
-    scale: 0.1
+    scale: 1.0
   - label: "I"
     uom: "mV"
     rangeLow: 0.0
-    rangeHigh: 100.0
+    rangeHigh: 1.0
     offset: 0.0
-    scale: 0.1
+    scale: 2.4400
   - label: "II"
     uom: "mV"
     rangeLow: 0.0
-    rangeHigh: 100.0
+    rangeHigh: 1.0
     offset: 0.0
-    scale: 0.1
+    scale: 2.4400
   - label: "III"
     uom: "mV"
     rangeLow: 0.0
-    rangeHigh: 100.0
+    rangeHigh: 1.0
     offset: 0.0
-    scale: 0.1
+    scale: 2.4400
   - label: "III"
     uom: "mV"
     rangeLow: 0.0
-    rangeHigh: 100.0
+    rangeHigh: 1.0
     offset: 0.0
-    scale: 0.1
+    scale: 2.4400
   - label: "V"
     uom: "mV"
     rangeLow: 0.0
-    rangeHigh: 100.0
+    rangeHigh: 1.0
     offset: 0.0
-    scale: 0.1
+    scale: 2.4400
   - label: "AVF"
     uom: "mV"
     rangeLow: 0.0
-    rangeHigh: 100.0
+    rangeHigh: 1.0
     offset: 0.0
-    scale: 0.1
+    scale: 2.4400
   - label: "AVL"
     uom: "mV"
     rangeLow: 0.0
-    rangeHigh: 100.0
+    rangeHigh: 1.0
     offset: 0.0
-    scale: 0.1
+    scale: 2.4400
   - label: "AVR"
     uom: "mV"
     rangeLow: 0.0
-    rangeHigh: 100.0
+    rangeHigh: 1.0
     offset: 0.0
-    scale: 0.1
+    scale: 2.4400
   - label: "SPO2"
     uom: "%"
     rangeLow: 0.0
-    rangeHigh: 100.0
+    rangeHigh: 1.0
     offset: 0.0
-    scale: 0.1
+    scale: 1.0
   - label: "CO2"
     uom: "mmHg"
     rangeLow: 0.0
-    rangeHigh: 100.0
+    rangeHigh: 1.0
     offset: 0.0
-    scale: 0.1
+    scale: 1.0
   - label: "RR"
     uom: "Imp"
     rangeLow: 0.0
-    rangeHigh: 100.0
+    rangeHigh: 1.0
     offset: 0.0
-    scale: 0.1
+    scale: 1.0
   
